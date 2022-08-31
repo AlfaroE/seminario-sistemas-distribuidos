@@ -31,7 +31,7 @@ def read_words(fname):
   return result
 
 
-def run(words):
+def runC(words):
   """
   We create an object representing the hash scheme that we are willing to use.
   The hash object is then passed to the Store constructor. When adding elements
@@ -45,9 +45,9 @@ def run(words):
   """
   Add three nodes to the Store
   """
-  my_store.add_node("Node 1")
-  my_store.add_node("Node 2")
-  my_store.add_node("Node 3")
+  migraciones1 = my_store.add_node("Node 1")
+  migraciones2 = my_store.add_node("Node 2")
+  migraciones3 = my_store.add_node("Node 3")
   
   my_store.dump()
   
@@ -65,7 +65,7 @@ def run(words):
   Remove one node from the Store. Stored objects need to be migrated to the
   remaining nodes.
   """
-  my_store.remove_node("Node 1")
+  migraciones4 = my_store.remove_node("Node 1")
   my_store.dump()
 
 
@@ -73,14 +73,77 @@ def run(words):
   Add the node back to the Store. Objects need to be migrated to conform to the
   Hash scheme.
   """
-  my_store.add_node("Node 1")
+  migraciones5 = my_store.add_node("Node 1")
+  my_store.dump()
+
+  print("Número de migraciones agregando nodo 1: {0}".format(migraciones1))
+  print("Número de migraciones agregando nodo 2: {0}".format(migraciones2))
+  print("Número de migraciones agregando nodo 3: {0}".format(migraciones3))
+  print("Número de migraciones eliminando nodo 1: {0}".format(migraciones4))
+  print("Número de migraciones agregando nodo 1: {0}".format(migraciones5))
+
+
+def runM(words):
+  """
+  We create an object representing the hash scheme that we are willing to use.
+  The hash object is then passed to the Store constructor. When adding elements
+  to the store, the selected hash scheme is used to determine where to place
+  the records.
+  """
+  my_hash = ModHash()
+  my_store = Store(my_hash)
+  
+  
+  """
+  Add three nodes to the Store
+  """
+  migraciones1 = my_store.add_node("Node 1")
+  migraciones2 = my_store.add_node("Node 2")
+  migraciones3 = my_store.add_node("Node 3")
+  
+  my_store.dump()
+  
+
+  """
+  Save all words in the Store
+  """
+  for word in words:
+      my_store.add_resource(word)
+  
   my_store.dump()
 
 
+  """
+  Remove one node from the Store. Stored objects need to be migrated to the
+  remaining nodes.
+  """
+  migraciones4 = my_store.remove_node("Node 1")
+  my_store.dump()
+
+
+  """
+  Add the node back to the Store. Objects need to be migrated to conform to the
+  Hash scheme.
+  """
+  migraciones5 = my_store.add_node("Node 1")
+  my_store.dump()
+
+  print("Número de migraciones agregando nodo 1: {0}".format(migraciones1))
+  print("Número de migraciones agregando nodo 2: {0}".format(migraciones2))
+  print("Número de migraciones agregando nodo 3: {0}".format(migraciones3))
+  print("Número de migraciones eliminando nodo 1: {0}".format(migraciones4))
+  print("Número de migraciones agregando nodo 1: {0}".format(migraciones5))
+
+  
+
+  
 
 if __name__ == '__main__':
 
   words = read_words('words_alpha.txt')
   words = words[:100]
 
-  run(words)
+  print("\n\n\t\t METODO CHASH\n\n")
+  runC(words)
+  print("\n\n\t\t METODO MODHASH\n\n")
+  runM(words)

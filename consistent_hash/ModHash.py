@@ -21,6 +21,7 @@ class ModHash(HashScheme):
         You have to decide what members to add to the class
         """
         self.__scheme_name = 'Modular_Hash'
+        self.nodes_cont = 0
         pass
 
     def get_name(self):
@@ -30,7 +31,7 @@ class ModHash(HashScheme):
         """
         Auxiliary method to print out information about the hash
         """
-        pass
+        print("Numero de nodos: {0}".format(self.nodes_cont))
 
     def add_node(self, new_node):
         """
@@ -38,7 +39,7 @@ class ModHash(HashScheme):
         need to update Store to react in certain way depending on the
         scheme_name.
         """
-        pass
+        self.nodes_cont += 1;
 
     def remove_node(self, node):
         """
@@ -46,10 +47,11 @@ class ModHash(HashScheme):
         need to update Store to react in certain way depending on the
         scheme_name.
         """
-        pass
+        self.nodes_cont -= 1;
+        
 
     def hash(self, value):
         """
         Convert value to a number representation and then obtain mod(number_of_nodes)
         """
-        pass
+        return (int(hashlib.md5(value.encode()).hexdigest(),16) % 10000) % self.nodes_cont
